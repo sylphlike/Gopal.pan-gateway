@@ -10,7 +10,7 @@
 
 
     <modules>
-        <module>gateway-api</module>
+        <module>gateway-service</module>
         <module>gateway-admin</module>
     </modules>
 
