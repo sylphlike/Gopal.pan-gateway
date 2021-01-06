@@ -1,0 +1,20 @@
+server:
+  port: 8999
+
+
+spring:
+  application:
+    name: unite-gateway
+  profiles:
+    active: @activatedProperties@  #开发环境(DEV)   测试环境(FAT)  用户验收(UAT) 生产环境(PROD)
+  http:
+    encoding:
+      force-response: true
+  cloud:
+    nacos:
+      discovery:
+        server-addr: nacos-t.itcast.cn:80
+        namespace: 02d3e962-c73c-4e3a-95a3-7780598ce9b4
+
+
+

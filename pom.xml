@@ -4,7 +4,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.sylphlike</groupId>
     <artifactId>Gopal.pan-gateway</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
@@ -26,6 +25,12 @@
         <framework.version>1.0.0-SYLPHLIKE</framework.version>
     </properties>
 
+    <parent>
+        <groupId>com.github.sylphlike</groupId>
+        <artifactId>Gopal.pan-framework</artifactId>
+        <version>1.0.0-SYLPHLIKE</version>
+    </parent>
+
 
     <dependencyManagement>
         <dependencies>
@@ -34,13 +39,56 @@
                 <artifactId>framework-norm</artifactId>
                 <version>${framework.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.github.sylphlike</groupId>
                 <artifactId>framework-basis</artifactId>
                 <version>${framework.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.github.sylphlike</groupId>
+                <artifactId>framework-redis</artifactId>
+                <version>${framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.sylphlike</groupId>
+                <artifactId>framework-security</artifactId>
+                <version>${framework.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
+
+
+
+    <profiles>
+        <!-- 默认本地环境 -->
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <activatedProperties>dev</activatedProperties>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>fat</id>
+            <properties>
+                <activatedProperties>fat</activatedProperties>
+            </properties>
+        </profile>
+        <profile>
+            <id>uat</id>
+            <properties>
+                <activatedProperties>uat</activatedProperties>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <activatedProperties>prod</activatedProperties>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
