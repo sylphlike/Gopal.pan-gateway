@@ -14,7 +14,7 @@ public enum GReply implements RCode {
 
     // ------------ * 99900 - 99999 网关错误码区间 * ------------ //
     GATEWAY_NOT_SUPPORT_REQUEST                (99911,"不支持的请求类型"),
-    GATEWAY_INVALID_ADDRESS                    (99912,"请求地址路径不在有效范围内"),
+    GATEWAY_INVALID_ADDRESS                    (99912,"请求路径不符合安全规范"),
     GATEWAY_NO_PARAM                           (99913,"请求体中未携带参数"),
     GATEWAY_ANALYTIC_ERROR                     (99914,"解析业务系统数据异常"),
 

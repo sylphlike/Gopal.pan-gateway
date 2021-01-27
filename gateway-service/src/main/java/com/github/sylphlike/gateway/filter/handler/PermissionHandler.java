@@ -15,12 +15,15 @@ import com.github.sylphlike.gateway.common.domain.PassCheckVO;
 import com.github.sylphlike.gateway.common.enums.ApproveType;
 import com.github.sylphlike.gateway.common.enums.GReply;
 import com.github.sylphlike.gateway.common.enums.ParamsType;
+import com.github.sylphlike.gateway.common.exception.GatewayException;
 import com.github.sylphlike.gateway.common.utils.ParamUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * <p>  time 05/11/2020 11:25  星期四 【dd/MM/YYYY HH:mm】 </p>
@@ -42,9 +45,9 @@ public class PermissionHandler {
     }
 
     /**
+     * 获取授权认证类型
      * <p>  time 11:27 2020/11/12 【HH:mm yyyy/MM/dd】  </p>
      * <p> email 15923508369@163.com </p>
-     *  获取授权认证类型
      * @param path  请求地址路径
      * @return   com.horse.gateway.common.enums.ApproveType
      * @author   Gopal.pan
@@ -56,8 +59,9 @@ public class PermissionHandler {
             }
         }
         String approveType = path.split("/")[2];
-        return ApproveType.getEnum(approveType);
-
+        ApproveType anEnum = ApproveType.getEnum(approveType);
+        Optional.ofNullable(anEnum).orElseThrow(()-> new GatewayException(GReply.GATEWAY_INVALID_ADDRESS));
+        return anEnum;
     }
 
     /**
@@ -72,7 +76,6 @@ public class PermissionHandler {
      *    /dictionary-service/n/system/page/list,权限类型为无需任务权限接口
      * <p>  time 11:39 2020/11/12 【HH:mm yyyy/MM/dd】  </p>
      * <p> email 15923508369@163.com </p>
-     *
      * @param approveType           认证类型
      * @param path                  资源地址路径（/应用上下文地址/权限类型/业务模块/业务功能）
      * @param originParams          原始请求参数
@@ -101,7 +104,7 @@ public class PermissionHandler {
                 return encrypt(originParams,path, paramsType);
             }
             case STATE:{
-                LOGGER.info("【unite-gateway】认证授权校验,加密授权,参数类型为[{}]",paramsType);
+                LOGGER.info("【unite-gateway】认证授权校验,开放平台登录接口回调认证,参数类型为[{}]",paramsType);
                 return state(originParams, paramsType);
             }
 
@@ -113,9 +116,9 @@ public class PermissionHandler {
 
 
     /**
+     * 登录授权认证
      * <p>  time 9:20 2020/11/13 【HH:mm yyyy/MM/dd】  </p>
      * <p> email 15923508369@163.com </p>
-     * 登录授权认证
      * @param token         令牌
      * @param originParams  原始请求参数
      * @return   com.horse.framework.norm.Response<java.lang.String>
@@ -133,13 +136,13 @@ public class PermissionHandler {
             LOGGER.info("【unite-gateway】认证授权校验,登录授权,identityId[{}]",subject);
             return new Response<>(PassCheckVO.builder().identity(subject).params(originParams).build());
         }catch (JWTDecodeException e){
-            LOGGER.error("【unite-gateway】认证授权校验,角色资源权限,token无效");
+            LOGGER.error("【unite-gateway】认证授权校验,登录授权认证,token无效");
             return Response.error(GReply.GATEWAY_TOKEN_INVALID);
         }catch (TokenExpiredException e) {
-            LOGGER.error("【unite-gateway】认证授权校验,角色资源权限,令牌过期[{}]",e.getMessage());
+            LOGGER.error("【unite-gateway】认证授权校验,登录授权认证,令牌过期[{}]",e.getMessage());
             return Response.error(GReply.GATEWAY_TOKEN_HAS_EXPIRED);
         } catch (Exception e){
-            LOGGER.error("【unite-gateway】认证授权校验,角色资源权限,系统异常", e);
+            LOGGER.error("【unite-gateway】认证授权校验,登录授权认证,系统异常", e);
             return Response.error(GReply.GATEWAY_TOKEN_AUTH_FAIL);
         }
 
@@ -148,9 +151,9 @@ public class PermissionHandler {
 
 
     /**
+     * 角色资源权限认证
      * <p>  time 9:20 2020/11/13 【HH:mm yyyy/MM/dd】  </p>
      * <p> email 15923508369@163.com </p>
-     * 角色资源权限认证
      * @param token         令牌
      * @param path          访问路径
      * @param originParams  原始请求参数
@@ -184,7 +187,7 @@ public class PermissionHandler {
             LOGGER.error("【unite-gateway】认证授权校验,角色资源权限,令牌过期[{}]",e.getMessage());
             return Response.error(GReply.GATEWAY_TOKEN_HAS_EXPIRED);
         } catch (Exception e){
-            LOGGER.error("【unite-gateway】认证授权校验,角色资源权限,系统异常[{}]", e.getMessage());
+            LOGGER.error("【unite-gateway】认证授权校验,角色资源权限,系统异常", e);
             return Response.error(GReply.GATEWAY_TOKEN_AUTH_FAIL);
         }
     }
@@ -193,8 +196,6 @@ public class PermissionHandler {
 
 
     /**
-     * <p>  time 9:32 2020/11/13 【HH:mm yyyy/MM/dd】  </p>
-     * <p> email 15923508369@163.com </p>
      * 参数加密认证
      *  参数格式为
      *      {
@@ -203,8 +204,10 @@ public class PermissionHandler {
      *          "data":"加密后的业务参数",
      *          "timestamp":"2020-11-13 12:12:12"
      *      }
+     * <p>  time 9:32 2020/11/13 【HH:mm yyyy/MM/dd】  </p>
+     * <p> email 15923508369@163.com </p>
      * @param originParams      原始请求参数
-     * @param path
+     * @param path              访问路径
      * @param paramsType        原始请求参数数据格式类型
      * @return   com.horse.framework.norm.Response<java.lang.String>
      * @author   Gopal.pan
@@ -232,7 +235,7 @@ public class PermissionHandler {
             LOGGER.error("【unite-gateway】认证授权校验,加密授权,参数格式化异常[{}]", e.getMessage());
             return Response.error(GReply.GATEWAY_DECRYPTION_WRONG_FORMAT);
         } catch (Exception e){
-            LOGGER.error("【unite-gateway】认证授权校验,加密授权,系统异常[{}]", e.getMessage());
+            LOGGER.error("【unite-gateway】认证授权校验,加密授权,系统异常", e);
             return Response.error(GReply.GATEWAY_DECRYPTION_FAILED);
         }
     }

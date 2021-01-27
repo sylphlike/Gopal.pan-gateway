@@ -13,17 +13,7 @@ import java.util.List;
  */
 public interface GConstants {
 
-
-    /**
-     * <p>  time 11:12 2020/11/12 【HH:mm yyyy/MM/dd】  </p>
-     * <p> email 15923508369@163.com </p>
-     * 无需验证认证URL地址
-     *  不在业务系统中定义，且不符合权限校验规范的地址
-     *
-     * @param null
-     * @return
-     * @author   Gopal.pan
-     */
+    /** 无需验证认证URL地址,不在业务系统中定义，且不符合权限校验规范的地址 */
     List<String> NO_VERIFICATION_API_URL =  new ArrayList<>(Arrays.asList("/v2/api-docs","/v2/api-docs-ext"));
 
 }

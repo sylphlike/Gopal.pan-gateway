@@ -31,19 +31,6 @@ public class RequestDispatcher implements ApplicationContextAware {
     private ApplicationContext context;
 
 
-    /**
-     * <p>  time 15:18 2020/9/28 【HH:mm yyyy/MM/dd】  </p>
-     * <p> email 15923508369@163.com </p>
-     *       AbstractHandler 子类集合
-     *       key 为子类定义的， 规则为 HttpMethod ,MediaType
-     *          {@link HttpMethod}
-     *          {@link MediaType}
-     *          当没有指定MediaType时，默认为 application/x-www-form-urlencoded
-     *
-     * @param null
-     * @return
-     * @author Gopal.pan
-     */
 
     /**
      * AbstractHandler 子类集合

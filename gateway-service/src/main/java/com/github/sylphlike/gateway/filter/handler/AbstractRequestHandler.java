@@ -60,22 +60,6 @@ public abstract class AbstractRequestHandler {
 
 
 
-    /**
-     * <p>  time 16:39 2020/11/16 【HH:mm yyyy/MM/dd】  </p>
-     * <p> email 15923508369@163.com </p>
-     *
-     *  非GET、multipart 类型请求通用请求逻辑
-     *  使用body携带参数时，当参数长度为0时 DataBufferUtils会中断请求，请求不会转发到业务系统  No sendHeaders() called before complete, sending zero-length header
-     *
-     * @param exchange
-     * @param chain
-     * @param path                  资源地址路径（/应用上下文地址/权限类型/业务模块/业务功能）
-     * @param paramsType            原始参数类型
-     * @param logPrefix             日志前缀
-     * @return   reactor.core.publisher.Mono<java.lang.Void>
-     * @author   Gopal.pan
-     */
-
 
     /**
      * 非GET、multipart 类型请求通用请求逻辑
@@ -143,7 +127,9 @@ public abstract class AbstractRequestHandler {
                     PassCheckVO passCheckVO = response.getData();
                     String identity = passCheckVO.getIdentity();
                     String params = passCheckVO.getParams();
-                    LOGGER.info("【unite-gateway】{},转发业务系统参数[{}]",logPrefix,params);
+
+                    if(approveType.equals(ApproveType.ENCRYPT))
+                        LOGGER.info("【unite-gateway】{},转发业务系统参数[{}]",logPrefix,params);
 
                     return ParamUtils.resetRequest(exchange, chain,identity, params.getBytes(StandardCharsets.UTF_8));
                 });

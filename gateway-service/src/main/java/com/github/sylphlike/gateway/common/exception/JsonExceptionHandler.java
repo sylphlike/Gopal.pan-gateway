@@ -59,7 +59,12 @@ public class JsonExceptionHandler  extends DefaultErrorWebExceptionHandler {
             errorAttributes.put("httpCode",HttpStatus.INTERNAL_SERVER_ERROR.value());
             errorAttributes.put("code", GReply.GATEWAY_SERVICE_MALFUNCTION.getCode());
             errorAttributes.put("message", GReply.GATEWAY_SERVICE_MALFUNCTION.getMessage());
-        }else{
+        }else if (error instanceof GatewayException){
+            GatewayException gatewayException = (GatewayException) error;
+            errorAttributes.put("httpCode",HttpStatus.INTERNAL_SERVER_ERROR.value());
+            errorAttributes.put("code", gatewayException.getCode());
+            errorAttributes.put("message", gatewayException.getMessage());
+        } else{
             errorAttributes.put("httpCode",HttpStatus.INTERNAL_SERVER_ERROR.value());
             errorAttributes.put("code", GReply.GATEWAY_EXECUTE_ERROR.getCode());
             errorAttributes.put("message", GReply.GATEWAY_EXECUTE_ERROR.getMessage());

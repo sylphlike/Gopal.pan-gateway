@@ -24,17 +24,17 @@ public class FallbackReply {
     private static final Logger LOGGER = LoggerFactory.getLogger(FallbackReply.class);
 
     /**
+     * 回退统一返回前端参数
      * <p>  time 11:11 2020/11/21 【HH:mm yyyy/MM/dd】  </p>
      * <p> email 15923508369@163.com </p>
-     *  回退统一返回前端参数
-     * @param exchange
+     * @param exchange exchange
      * @return   com.horse.framework.norm.Response<java.lang.Void>
      * @author   Gopal.pan
      */
     @RequestMapping("/fallback")
     public Response<Void> fallback(ServerWebExchange exchange) {
         MDC.put(Constants.TRACE, exchange.getRequest().getHeaders().getFirst(Constants.TRACE));
-        LOGGER.error("【unite-gateway】服务响应超时");
+        LOGGER.error("【unite-gateway】服务响应失败");
         return new Response<>(GReply.GATEWAY_REPLAY_TIMEOUT);
     }
 }

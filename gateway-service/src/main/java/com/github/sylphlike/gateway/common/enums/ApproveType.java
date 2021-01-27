@@ -14,11 +14,11 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum ApproveType {
-    NONE("n","无需任何权限"),
-    LOGIN("l","登录授权"),
-    ROLE("r","角色资源权限"),
-    ENCRYPT("e","加密授权"),
-    STATE("s","开放平台登录接口回调认证");
+    NONE    ("n","无需任何权限"),
+    LOGIN   ("l","登录授权"),
+    ROLE    ("r","角色资源权限"),
+    ENCRYPT ("e","加密授权"),
+    STATE   ("s","开放平台登录接口回调认证");
 
 
     private final String code;
