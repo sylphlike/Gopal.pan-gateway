@@ -128,7 +128,7 @@ public class ParamUtils {
 
 
     /**
-     * 重载请求头和业务参数调用业务系统
+     * 重写请求头和请求数据调用业务系统
      * <p>  time 9:18 2021/1/6 (HH:mm yyyy/MM/dd)
      * <p> email 15923508369@163.com
      * @param exchange            交换
@@ -140,19 +140,16 @@ public class ParamUtils {
      */
     public static Mono<Void> resetRequest(ServerWebExchange exchange, GatewayFilterChain chain, String identity, byte[] businessParameters) {
 
-        //重新装载请求数据
-        Flux<DataBuffer> cachedFlux = Flux.defer(() -> {
-            DataBuffer buffer = exchange.getResponse().bufferFactory().wrap(businessParameters);
-            return Mono.just(buffer);
-        });
-
-        //重新请求头 内容长度
         ServerHttpRequest mutatedRequest = new ServerHttpRequestDecorator(exchange.getRequest()) {
+            //重写请求数据
             @Override
             public Flux<DataBuffer> getBody() {
-                return cachedFlux;
+                return Flux.defer(() -> {
+                    DataBuffer buffer = exchange.getResponse().bufferFactory().wrap(businessParameters);
+                    return Mono.just(buffer);
+                });
             }
-
+            //重写请求头
             @Override
             public HttpHeaders getHeaders() {
                 HttpHeaders httpHeaders = new HttpHeaders();
@@ -162,11 +159,8 @@ public class ParamUtils {
                 return httpHeaders;
             }
         };
-
         return chain.filter(exchange.mutate().request(mutatedRequest).build());
     }
-
-
 
 
     /**
@@ -182,7 +176,6 @@ public class ParamUtils {
         ServerHttpRequest mutatedRequest = exchange.getRequest().mutate()
                 .header(Constants.IDENTITY_ID,identity)
                 .build();
-
         return exchange.mutate().request(mutatedRequest).build();
     }
 

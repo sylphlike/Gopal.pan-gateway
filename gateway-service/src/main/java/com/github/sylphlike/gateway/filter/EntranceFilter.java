@@ -11,7 +11,6 @@ import com.github.sylphlike.gateway.filter.handler.RequestDispatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -26,8 +25,6 @@ import reactor.core.publisher.Mono;
  * <p> 根据method 类型分发到不同的处理器处理
  * <p>  time 28/09/2020 09:15  星期一 【dd/MM/YYYY HH:mm】 </p>
  * <p> email 15923508369@163.com </p>
- *
- *
  * @author Gopal.pan
  * @version 1.0.0
  */
@@ -36,7 +33,10 @@ public class EntranceFilter implements GlobalFilter, Ordered {
 
     Logger logger = LoggerFactory.getLogger(EntranceFilter.class);
 
-    @Autowired private RequestDispatcher dispatcher;
+    private final RequestDispatcher dispatcher;
+    public EntranceFilter(RequestDispatcher dispatcher) {
+        this.dispatcher = dispatcher;
+    }
 
     @Override
     public int getOrder() {
