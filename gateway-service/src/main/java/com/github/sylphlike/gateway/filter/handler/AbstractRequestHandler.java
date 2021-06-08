@@ -1,7 +1,7 @@
 package com.github.sylphlike.gateway.filter.handler;
 
 
-import com.github.sylphlike.framework.basis.Constants;
+import com.github.sylphlike.framework.adapt.Constants;
 import com.github.sylphlike.framework.norm.Response;
 import com.github.sylphlike.gateway.common.domain.PassCheckVO;
 import com.github.sylphlike.gateway.common.enums.ApproveType;

@@ -3,11 +3,11 @@ package com.github.sylphlike.gateway.filter.handler;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.github.sylphlike.framework.basis.JsonConfig;
+import com.github.sylphlike.framework.adapt.JsonConfig;
 import com.github.sylphlike.framework.norm.CharsetUtil;
 import com.github.sylphlike.framework.norm.Response;
 import com.github.sylphlike.framework.redis.api.RedisClient;
-import com.github.sylphlike.framework.security.JWTToken;
+import com.github.sylphlike.framework.security.JWTTokenUtils;
 import com.github.sylphlike.framework.security.RSAEncryptUtils;
 import com.github.sylphlike.gateway.common.config.GConstants;
 import com.github.sylphlike.gateway.common.domain.EncryptApproveBO;
@@ -129,7 +129,7 @@ public class PermissionHandler {
             if(StringUtils.isEmpty(token)){
                 return Response.error(GReply.GATEWAY_TOKEN_LOST);
             }
-            String subject = JWTToken.validateSubject(token);
+            String subject = JWTTokenUtils.validateSubject(token);
             if(StringUtils.isEmpty(subject)){
                 return Response.error(GReply.GATEWAY_TOKEN_AUTH_FAIL);
             }
@@ -165,7 +165,7 @@ public class PermissionHandler {
             if(StringUtils.isEmpty(token)){
                 return Response.error(GReply.GATEWAY_TOKEN_LOST);
             }
-            String subject = JWTToken.validateSubject(token);
+            String subject = JWTTokenUtils.validateSubject(token);
             if(StringUtils.isEmpty(subject)){
                 return Response.error(GReply.GATEWAY_TOKEN_AUTH_FAIL);
             }

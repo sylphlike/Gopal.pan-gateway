@@ -1,7 +1,7 @@
 package com.github.sylphlike.gateway.filter;
 
-import com.github.sylphlike.framework.basis.Constants;
-import com.github.sylphlike.framework.basis.UUIDCache;
+import com.github.sylphlike.framework.adapt.Constants;
+import com.github.sylphlike.framework.adapt.cache.UUIDCache;
 import com.github.sylphlike.gateway.common.enums.GReply;
 import com.github.sylphlike.gateway.common.utils.DeviceResolver;
 import com.github.sylphlike.gateway.common.utils.ReactiveIPUtils;

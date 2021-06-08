@@ -1,7 +1,7 @@
 package com.github.sylphlike.gateway.common.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.github.sylphlike.framework.basis.JsonConfig;
+import com.github.sylphlike.framework.adapt.JsonConfig;
 import com.github.sylphlike.framework.norm.RCode;
 import com.github.sylphlike.framework.norm.Response;
 import org.slf4j.Logger;

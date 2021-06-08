@@ -1,6 +1,6 @@
 package com.github.sylphlike.gateway.fallback;
 
-import com.github.sylphlike.framework.basis.Constants;
+import com.github.sylphlike.framework.adapt.Constants;
 import com.github.sylphlike.framework.norm.Response;
 import com.github.sylphlike.gateway.common.enums.GReply;
 import org.slf4j.Logger;

@@ -1,6 +1,6 @@
 package com.github.sylphlike.gateway.fallback;
 
-import com.github.sylphlike.framework.basis.Constants;
+import com.github.sylphlike.framework.adapt.Constants;
 import com.github.sylphlike.gateway.common.enums.FuseEnum;
 import com.netflix.hystrix.ExecutionResult;
 import org.slf4j.Logger;

@@ -2,9 +2,10 @@ server:
   tomcat:
     accept-count: 50             #最大排队数 默认100
     max-connections: 5000        #最大可被链接数 默认10000
-    max-threads: 200             #最大工作线程数
-    min-spare-threads: 10        #最小工作线程数
     connection-timeout: 20000    #连接超时，单位ms
+    threads:
+      max: 200                   #最大工作线程
+      min-spare: 10              #最小工作线程
 
 
 

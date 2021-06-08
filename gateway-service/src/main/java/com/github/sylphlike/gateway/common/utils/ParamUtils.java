@@ -1,8 +1,8 @@
 package com.github.sylphlike.gateway.common.utils;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.github.sylphlike.framework.basis.Constants;
-import com.github.sylphlike.framework.basis.JsonConfig;
+import com.github.sylphlike.framework.adapt.Constants;
+import com.github.sylphlike.framework.adapt.JsonConfig;
 import com.github.sylphlike.framework.norm.CharsetUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -155,7 +155,7 @@ public class ParamUtils {
                 HttpHeaders httpHeaders = new HttpHeaders();
                 httpHeaders.putAll(super.getHeaders());
                 httpHeaders.setContentLength(businessParameters.length);
-                httpHeaders.add(Constants.IDENTITY_ID,identity);
+                httpHeaders.add(Constants.USER_CONTEXT,identity);
                 return httpHeaders;
             }
         };
@@ -174,7 +174,7 @@ public class ParamUtils {
      */
     public static ServerWebExchange overloadHeader(ServerWebExchange exchange, String identity) {
         ServerHttpRequest mutatedRequest = exchange.getRequest().mutate()
-                .header(Constants.IDENTITY_ID,identity)
+                .header(Constants.USER_CONTEXT,identity)
                 .build();
         return exchange.mutate().request(mutatedRequest).build();
     }

@@ -1,6 +1,6 @@
 package com.github.sylphlike.gateway.filter.handler;
 
-import com.github.sylphlike.framework.basis.Constants;
+import com.github.sylphlike.framework.adapt.Constants;
 import com.github.sylphlike.framework.norm.CharsetUtil;
 import com.github.sylphlike.framework.norm.Response;
 import com.github.sylphlike.gateway.common.domain.PassCheckVO;
@@ -65,7 +65,7 @@ public class GetFormRequestHandler extends AbstractRequestHandler {
         //重载请求
         ServerHttpRequest mutatedRequest = exchange.getRequest().mutate()
                 .uri(uri)
-                .header(Constants.IDENTITY_ID, response.getData().getIdentity())
+                .header(Constants.USER_CONTEXT, response.getData().getIdentity())
                 .build();
         return chain.filter(exchange.mutate().request(mutatedRequest).build());
     }

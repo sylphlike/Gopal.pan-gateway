@@ -1,7 +1,7 @@
 package com.github.sylphlike.gateway.filter;
 
-import com.github.sylphlike.framework.basis.Constants;
-import com.github.sylphlike.framework.basis.JsonConfig;
+import com.github.sylphlike.framework.adapt.Constants;
+import com.github.sylphlike.framework.adapt.JsonConfig;
 import com.github.sylphlike.framework.norm.Response;
 import com.github.sylphlike.gateway.common.enums.GReply;
 import com.google.common.base.Joiner;
