@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configuration>
 <configuration>
-    <property name="log_path" value="/tmp/logs"/>
+    <property name="log_path" value="/data/log/gateway"/>
     <springProperty name="profile" source="spring.profiles.active" defaultValue="dev"/>
 
     <!-- 控制台 appender -->
@@ -12,14 +12,14 @@
     </appender>
 
     <appender name = "logback_file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log_path}/unite-gateway_logback.log</file>
+        <file>${log_path}/gateway_logback.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 按天回滚 daily -->
-            <fileNamePattern>${log_path}/unite-gateway_logback-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${log_path}/gateway_logback-%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- 日志最大的历史 3天 -->
             <maxHistory>3</maxHistory>
             <!-- 除按日志记录之外，还配置了日志文件不能超过2M，若超过2M，日志文件会以索引0开始,命名日志文件，如cloud-boss-error-2018-02-05.0.log -->
-            <fileNamePattern>${log_path}/unite-gateway_logback-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${log_path}/gateway_logback-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>10MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
@@ -33,9 +33,9 @@
 
 
     <appender name="logstash_file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log_path}/unite-gateway_logstash.log</file>
+        <file>${log_path}/gateway_logstash.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log_path}/unite-gateway_logstash-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${log_path}/gateway_logstash-%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>14</maxHistory>
         </rollingPolicy>
 
