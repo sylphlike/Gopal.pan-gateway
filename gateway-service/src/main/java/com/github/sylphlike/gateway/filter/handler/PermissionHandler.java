@@ -6,9 +6,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.sylphlike.framework.adapt.JsonConfig;
 import com.github.sylphlike.framework.norm.CharsetUtil;
 import com.github.sylphlike.framework.norm.Response;
-import com.github.sylphlike.framework.redis.api.RedisClient;
-import com.github.sylphlike.framework.security.JWTTokenUtils;
-import com.github.sylphlike.framework.security.RSAEncryptUtils;
+import com.github.sylphlike.framework.security.JWTToken;
+import com.github.sylphlike.framework.security.RSAEncrypt;
 import com.github.sylphlike.gateway.common.config.GConstants;
 import com.github.sylphlike.gateway.common.domain.EncryptApproveBO;
 import com.github.sylphlike.gateway.common.domain.PassCheckVO;
@@ -19,6 +18,10 @@ import com.github.sylphlike.gateway.common.exception.GatewayException;
 import com.github.sylphlike.gateway.common.utils.ParamUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.redisson.api.RBucket;
+import org.redisson.api.RSet;
+import org.redisson.api.RedissonClient;
+import org.redisson.client.codec.StringCodec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -37,11 +40,11 @@ public class PermissionHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PermissionHandler.class);
 
-    private static RedisClient redisClient;
+    private static RedissonClient redissonClient;
 
 
-    public PermissionHandler(RedisClient redisClient) {
-        PermissionHandler.redisClient = redisClient;
+    public PermissionHandler(RedissonClient redissonClient) {
+        PermissionHandler.redissonClient = redissonClient;
     }
 
     /**
@@ -129,7 +132,7 @@ public class PermissionHandler {
             if(StringUtils.isEmpty(token)){
                 return Response.error(GReply.GATEWAY_TOKEN_LOST);
             }
-            String subject = JWTTokenUtils.validateSubject(token);
+            String subject = JWTToken.validateSubject(token);
             if(StringUtils.isEmpty(subject)){
                 return Response.error(GReply.GATEWAY_TOKEN_AUTH_FAIL);
             }
@@ -165,7 +168,7 @@ public class PermissionHandler {
             if(StringUtils.isEmpty(token)){
                 return Response.error(GReply.GATEWAY_TOKEN_LOST);
             }
-            String subject = JWTTokenUtils.validateSubject(token);
+            String subject = JWTToken.validateSubject(token);
             if(StringUtils.isEmpty(subject)){
                 return Response.error(GReply.GATEWAY_TOKEN_AUTH_FAIL);
             }
@@ -173,7 +176,8 @@ public class PermissionHandler {
             int index = StringUtils.ordinalIndexOf(path, "/", 2);
             String roleCacheKey = StringUtils.join(appId(path), CharsetUtil.CHAR_ENGLISH_COLON,"auth:",subject);
 
-            Boolean member = redisClient.opsForSet().isMember(roleCacheKey, path.substring(index));
+            RSet<Object> set = redissonClient.getSet(roleCacheKey);
+            Boolean member = set.contains(path.substring(index));
             if(ObjectUtils.isEmpty(member) || !member){
                 return Response.error(GReply.GATEWAY_NO_ACCESS);
             }
@@ -226,8 +230,9 @@ public class PermissionHandler {
             }
             String merchantId = encryptApproveBO.getMerchantId();
             String cacheKey = StringUtils.join(appId(path), CharsetUtil.CHAR_ENGLISH_COLON,"permission:",merchantId);
-            String privateKey = redisClient.get(cacheKey, String.class);
-            String plaintext = RSAEncryptUtils.decryptByPrivateKey(encryptApproveBO.getData(), privateKey);
+            RBucket<String> bucket = redissonClient.getBucket(cacheKey, new StringCodec());
+            String privateKey = bucket.get();
+            String plaintext = RSAEncrypt.decryptByPrivateKey(encryptApproveBO.getData(), privateKey);
 
             LOGGER.info("【unite-gateway】认证授权校验,加密授权,identityId[{}]",merchantId);
             return new Response<>(PassCheckVO.builder().identity(merchantId).params(plaintext).build());

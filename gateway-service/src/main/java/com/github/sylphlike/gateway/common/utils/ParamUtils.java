@@ -50,7 +50,7 @@ public class ParamUtils {
      * <p> GET text/plain, POST  application/x-www-form-urlencoded 请求类型实用
      * <p>  time 9:17 2021/1/6 (HH:mm yyyy/MM/dd)
      * <p> email 15923508369@163.com
-     * @param originParams
+     * @param originParams  原始参数
      * @return  java.lang.String
      * @author  Gopal.pan
      */

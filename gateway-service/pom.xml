@@ -61,6 +61,12 @@
         <dependency>
             <groupId>com.github.sylphlike</groupId>
             <artifactId>framework-redis</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-web</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.github.sylphlike</groupId>

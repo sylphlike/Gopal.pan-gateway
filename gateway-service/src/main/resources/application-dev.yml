@@ -33,19 +33,8 @@ spring:
             timeout:
               unite-demo_n_customize6: 9000
 
-
-
-
-
   redis:
-    host: redis.itcast.cn
-    password: 123456
-    port: 6379
-    timeout: 1500
-    lettuce:
-      pool:
-        max-active: 500
-        max-wait: 500
-        max-idle: 500
-        min-idle: 0
     database: 15
+    host: xxx
+    port: 6379
+    password: sQSIPcYryNpU8Gch
