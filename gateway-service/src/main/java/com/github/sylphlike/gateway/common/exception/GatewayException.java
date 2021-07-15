@@ -1,7 +1,6 @@
 package com.github.sylphlike.gateway.common.exception;
 
 
-import com.github.sylphlike.framework.norm.CharsetUtil;
 import com.github.sylphlike.framework.norm.RCode;
 import com.github.sylphlike.framework.norm.UniteException;
 
@@ -17,16 +16,16 @@ public class GatewayException extends UniteException {
 
     private static final long serialVersionUID = -6531836994139597998L;
 
-    public GatewayException(RCode message) {
-        super(message.getMessage());
-        this.code    = message.getCode();
-        this.message = message.getMessage();
+
+    public GatewayException(String message) {
+        super(message);
     }
 
+    public GatewayException(RCode rCode) {
+        super(rCode);
+    }
 
-    public GatewayException(RCode message, String detailMessage) {
-        super( message.getMessage() + CharsetUtil.STRING_ENGLISH_COMMA_SPACE + detailMessage);
-        this.code    = message.getCode();
-        this.message = message.getMessage() + CharsetUtil.STRING_ENGLISH_COMMA_SPACE + detailMessage;
+    public GatewayException(RCode rCode, String subMsg) {
+        super(rCode, subMsg);
     }
 }
