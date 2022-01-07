@@ -23,7 +23,6 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
 
-        <framework.version>1.2.1-SNAPSHOT</framework.version>
     </properties>
 
     <parent>
@@ -35,31 +34,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>com.github.sylphlike.framework</groupId>
-                <artifactId>framework-norm</artifactId>
-                <version>${framework.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.sylphlike.framework</groupId>
-                <artifactId>framework-adapt</artifactId>
-                <version>${framework.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.sylphlike.framework</groupId>
-                <artifactId>framework-redis</artifactId>
-                <version>${framework.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.sylphlike.framework</groupId>
-                <artifactId>framework-security</artifactId>
-                <version>${framework.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.sylphlike.framework</groupId>
-                <artifactId>framework-web</artifactId>
-                <version>${framework.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
