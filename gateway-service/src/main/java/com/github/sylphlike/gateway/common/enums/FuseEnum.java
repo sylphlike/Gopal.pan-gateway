@@ -3,7 +3,6 @@ package com.github.sylphlike.gateway.common.enums;
 /**
  * <p>  time 21/11/2020 10:50  星期六 【dd/MM/YYYY HH:mm】 </p>
  * <p> email 15923508369@163.com </p>
- *
  * @author Gopal.pan
  * @version 1.0.0
  */
