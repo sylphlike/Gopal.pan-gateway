@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration>
+<configuration>
+    <property name="log_path" value="/data/log/gateway/service"/>
+    <springProperty name="profile" source="spring.profiles.active" defaultValue="dev"/>
+
+    <!-- 控制台 appender -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d [%thread] [%X{trace}] %-5p %c{0} - %cyan(%m%n)</pattern>
+        </encoder>
+    </appender>
+
+    <appender name = "logback_file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log_path}/gateway_logback.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 按天回滚 daily -->
+            <fileNamePattern>${log_path}/gateway_logback-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 日志最大的历史 3天 -->
+            <maxHistory>3</maxHistory>
+            <!-- 除按日志记录之外，还配置了日志文件不能超过2M，若超过2M，日志文件会以索引0开始,命名日志文件，如cloud-boss-error-2018-02-05.0.log -->
+            <fileNamePattern>${log_path}/gateway_logback-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <!-- 追加方式记录日志 -->
+        <append>true</append>
+        <encoder>
+            <pattern>%d [%X{trace}] %-5p %c{0} - %m%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <appender name="logstash_file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log_path}/gateway_logstash.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log_path}/gateway_logstash-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>14</maxHistory>
+        </rollingPolicy>
+
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeMdcKeyName>trace</includeMdcKeyName>
+        </encoder>
+
+    </appender>
+
+    <springProfile name="dev">
+        <root>
+            <level value = "DEBUG"/>
+            <appender-ref ref="console" />
+        </root>
+    </springProfile>
+
+
+    <springProfile name="fat | uat ">
+        <root>
+            <level value = "INFO"/>
+            <appender-ref ref="logstash_file" />
+
+        </root>
+    </springProfile>
+
+    <springProfile name="pro">
+        <root>
+            <level value = "INFO"/>
+            <appender-ref ref="logstash_file" />
+        </root>
+    </springProfile>
+
+
+
+
+
+    <!--  第三方包的日志级别 -->
+    <logger name="org.apache" level="INFO"/>
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="org.springframework.data.redis" level="INFO"/>
+    <logger name="org.keycloak" level="INFO"/>
+    <logger name="com.zaxxer.hikari" level="INFO"/>
+    <logger name="org.mybatis" level="INFO"/>
+    <logger name="io.lettuce" level="INFO"/>
+    <logger name="io.netty" level="INFO"/>
+    <logger name="com.alibaba.nacos" level="INFO"/>
+    <logger name="reactor.netty" level="INFO"/>
+
+    <logger name="com.netflix" level="ERROR"/>
+    <logger name="com.netflix.discovery.shared.resolver" level="ERROR"/>
+    <logger name="com.alibaba.nacos.client" level="ERROR"/>
+
+    <logger name="com.github.xiaoymin" level="OFF"/>
+    <logger name="springfox" level="OFF"/>
+    <logger name="io.swagger" level="OFF"/>
+</configuration>

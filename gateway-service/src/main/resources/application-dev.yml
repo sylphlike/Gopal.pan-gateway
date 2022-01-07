@@ -1,0 +1,47 @@
+server:
+  tomcat:
+    accept-count: 50             #最大排队数 默认100
+    max-connections: 5000        #最大可被链接数 默认10000
+    connection-timeout: 20000    #连接超时，单位ms
+    threads:
+      max: 200                   #最大工作线程
+      min-spare: 10              #最小工作线程
+
+
+
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr:
+        group:
+        namespace:
+        password: nacos
+        username: nacos
+    gateway:
+      discovery:
+        locator:
+          enabled: false #这里演示不用注册中心，否则设置为true 开启从注册中心动态创建路由的功能，利用微服务名进行路由
+      routes:
+        - id: dictionary-service
+          uri: lb://dictionary-service
+          predicates:
+            - Path=/dictionary-service/**
+        - id: unite-demo
+          uri: lb://unite-demo
+          predicates:
+            - Path=/unite-demo/**
+      default-filters:
+        - name: GlobalHystrix
+          args:
+            name: fallbackcmd
+            fallbackUri: forward:/fallback
+            timeout:
+              unite-demo_n_customize6: 9000
+
+  redis:
+    database: 0
+    host:
+    port:
+    password:

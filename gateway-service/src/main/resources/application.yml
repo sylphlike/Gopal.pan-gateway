@@ -1,0 +1,12 @@
+server:
+  port: 8999
+  servlet:
+    encoding:
+      force-response: true
+
+
+spring:
+  application:
+    name: unite-gateway-service
+  profiles:
+    active: @activatedProperties@
