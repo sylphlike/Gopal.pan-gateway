@@ -1,5 +1,6 @@
 package com.github.sylphlike.gateway.filter.handler;
 
+
 import com.github.sylphlike.framework.adapt.Constants;
 import com.github.sylphlike.framework.norm.Response;
 import com.github.sylphlike.gateway.common.domain.PassCheckVO;
@@ -20,12 +21,13 @@ import java.nio.charset.StandardCharsets;
 /**
  * 请求类型映射亲情媒体类型抽象类
  * 实例类根据重新requestContextType，将本类注入到 RequestSolverChooser 类中, 调用方根据实例化子类时注入到 RequestSolverChooser类中的key值找到具体的实现内，实现调用
- * <p>  time 14:07 2022/01/08  星期六 </p>
- * <p> email 15923508369@163.com     </P>
+ * <p>  time 28/09/2020 11:38  星期一 【dd/MM/YYYY HH:mm】 </p>
+ * <p> email 15923508369@163.com </p>
+ *
  * @author Gopal.pan
  * @version 1.0.0
  */
-public class AbstractRequestHandler {
+public abstract class AbstractRequestHandler {
 
     protected final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
@@ -88,7 +90,6 @@ public class AbstractRequestHandler {
             LOGGER.info("【unite-gateway】{},携带参数长度为0,认证授权通过,请求业务系统",logPrefix);
             return chain.filter(ParamUtils.overloadHeader(exchange,response.getData().getIdentity()));
         }
-
         return paramProcess(exchange,chain,approveType,path,token,paramsType,logPrefix);
 
     }
@@ -97,7 +98,6 @@ public class AbstractRequestHandler {
     /**
      * <p>  time 16:40 2020/11/16 【HH:mm yyyy/MM/dd】  </p>
      * <p> email 15923508369@163.com </p>
-     *
      * @param exchange              exchange
      * @param chain                 chain
      * @param approveType           认证类型
@@ -131,7 +131,6 @@ public class AbstractRequestHandler {
 
                     return ParamUtils.resetRequest(exchange, chain,identity, params.getBytes(StandardCharsets.UTF_8));
                 });
-
-
     }
+
 }
