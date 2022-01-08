@@ -10,6 +10,28 @@
     <version>1.0.0-SNAPSHOT</version>
 
 
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Gopal.pan</name>
+            <email>15923508369@163.com</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://github.com/sylphlike/Gopal.pan-gateway</url>
+        <developerConnection>scm:git:https://github.com/sylphlike/Gopal.pan-gateway.git</developerConnection>
+        <connection>scm:git:https://github.com/sylphlike/Gopal.pan-gatewayt.git</connection>
+    </scm>
+
+
     <modules>
         <module>gateway-service</module>
         <module>gateway-admin</module>
