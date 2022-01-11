@@ -16,8 +16,6 @@ public class GatewayException extends UniteException {
 
     private static final long serialVersionUID = -6531836994139597998L;
 
-
-
     public GatewayException(RCode rCode) {
         super(rCode);
     }
